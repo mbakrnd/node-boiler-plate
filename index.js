@@ -12,6 +12,7 @@ app.use(express.json())
 
 
 app.get('/', async (req, res) => {
+    console.log(process.env.ENV)
     res.send('Welcome to Node boiler plate!')
 });
 

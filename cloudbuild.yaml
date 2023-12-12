@@ -1,0 +1,15 @@
+# https://cloud.google.com/build/docs/configuring-builds/create-basic-configuration
+steps:
+  # build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/${PROJECT_ID}/nd-docker-repo/node-boiler-plate:${SHORT_SHA}', '.', '--build-arg', 'ENVBUILD=prod']
+  # push container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/${PROJECT_ID}/nd-docker-repo/node-boiler-plate:${SHORT_SHA}']
+  # 
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+    - app
+    - deploy
+    - --image-url=gcr.io/${PROJECT_ID}/nd-docker-repo/node-boiler-plate:${SHORT_SHA}
+timeout: "1600s"
